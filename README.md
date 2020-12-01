@@ -2,4 +2,4 @@
 
 npm init\
 npm install express --save\
-node app.js\
+node app.js
