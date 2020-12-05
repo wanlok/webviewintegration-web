@@ -103,6 +103,11 @@
             }
 
             function camera() {
+                try {
+                    window.webkit.messageHandlers.accenture.postMessage({"action":"camera"});
+                } catch (e) {
+                    // addItem("" + e);
+                }
                 var list = document.getElementById("list");
                 var video = document.getElementById('video');
                 var camera = document.getElementById('camera');
