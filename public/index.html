@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+        <style>
+            body {
+                margin: 0px;
+                padding: 0px;
+            }
+
+            body, input {
+                font-size: 15px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            .control {
+                display: table;
+                width: calc(100% - 16px - 16px);
+            }
+
+            .control,
+            #video {
+                margin-left: 16px;
+                margin-right: 16px;
+                margin-bottom: 16px;
+            }
+
+            .control > input {
+                width: calc(100% - 80px - 80px - 8px - 1px);
+            }
+
+            .control > * {
+                display: table-cell;
+                height: 40px;
+            }
+
+            .item {
+                padding: 16px;
+                background: #EEEEEE;
+                margin-bottom: 1px;
+            }
+
+            #clearAll {
+                margin-left: 1px;
+            }
+
+            #add, #clearAll, #camera {
+                background: none;
+                color: inherit;
+                border: none;
+                padding: 0;
+                font: inherit;
+                cursor: pointer;
+                outline: inherit;
+            }
+            
+            #add {
+                margin-left: 8px;
+            }
+            
+            #add, #clearAll, #camera {
+                background: #EEEEEE;
+            }
+
+            #add, #clearAll {
+                width: 80px;
+            }
+
+            #camera {
+                width: 100%;
+            }
+
+            #video {
+                width: calc(100% - 16px - 16px);
+                display: none;
+            }
+        </style>
+        <script>
+            function addItem(value) {
+                if (value.length > 0) {
+                    var itemDiv = document.createElement("div");
+                    itemDiv.setAttribute("class", "item");
+                    itemDiv.appendChild(document.createTextNode(value));
+
+                    var listDiv = document.getElementById("list");
+                    listDiv.appendChild(itemDiv);
+                }
+            }
+
+            function add() {
+                var valueInput = document.getElementById("value");
+                addItem(valueInput.value);
+                valueInput.value = "";
+            }
+
+            function clearAll() {
+                var valueInput = document.getElementById("value");
+                if (valueInput != null) {
+                    valueInput.value = "";
+                }
+                
+                var listDiv = document.getElementById("list");
+                listDiv.innerHTML = "";
+            }
+
+            function camera() {
+                var list = document.getElementById("list");
+                var video = document.getElementById('video');
+                var camera = document.getElementById('camera');
+                if (camera.innerHTML == "Open Camera") {
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                            video.srcObject = stream;
+                            video.play();
+                            list.style.display = "none";
+                            video.style.display = "block";
+                            camera.innerHTML = "Close Camera";
+                        });
+                    }
+                } else {
+                    var stream = video.srcObject;
+                    stream.getTracks().forEach(function(track) {
+                        track.stop();
+                        list.style.display = "block";
+                        video.style.display = "none";
+                        camera.innerHTML = "Open Camera";
+                    });
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="control">
+            <input type="text" id="value" />
+            <button id="add" onClick="add()">Add</button>
+            <button id="clearAll" onClick="clearAll()">Clear All</button>
+        </div>
+        <div class="control">
+            <button id="camera" onClick="camera()">Open Camera</button>
+        </div>
+        <video id="video" autoplay></video>
+        <div id="list"></div>
+    </body>
+</html>
