@@ -106,7 +106,11 @@
                 try {
                     window.webkit.messageHandlers.accenture.postMessage({"action":"camera"});
                 } catch (e) {
-                    // addItem("" + e);
+                    try {
+                        window.accentureInterface.openCamera();
+                    } catch(e) {
+                        
+                    }
                 }
                 var list = document.getElementById("list");
                 var video = document.getElementById('video');
