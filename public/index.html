@@ -109,30 +109,29 @@
                     try {
                         window.accentureInterface.openCamera();
                     } catch(e) {
-                        
+                        var list = document.getElementById("list");
+                        var video = document.getElementById('video');
+                        var camera = document.getElementById('camera');
+                        if (camera.innerHTML == "Open Camera") {
+                            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                                navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                                    video.srcObject = stream;
+                                    video.play();
+                                    list.style.display = "none";
+                                    video.style.display = "block";
+                                    camera.innerHTML = "Close Camera";
+                                });
+                            }
+                        } else {
+                            var stream = video.srcObject;
+                            stream.getTracks().forEach(function(track) {
+                                track.stop();
+                                list.style.display = "block";
+                                video.style.display = "none";
+                                camera.innerHTML = "Open Camera";
+                            });
+                        }
                     }
-                }
-                var list = document.getElementById("list");
-                var video = document.getElementById('video');
-                var camera = document.getElementById('camera');
-                if (camera.innerHTML == "Open Camera") {
-                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                            video.srcObject = stream;
-                            video.play();
-                            list.style.display = "none";
-                            video.style.display = "block";
-                            camera.innerHTML = "Close Camera";
-                        });
-                    }
-                } else {
-                    var stream = video.srcObject;
-                    stream.getTracks().forEach(function(track) {
-                        track.stop();
-                        list.style.display = "block";
-                        video.style.display = "none";
-                        camera.innerHTML = "Open Camera";
-                    });
                 }
             }
         </script>
