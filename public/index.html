@@ -150,13 +150,13 @@
                         canvas.width = video.videoWidth;
                         canvas.height = video.videoHeight;
                         canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-                        addBase64StringPhoto(canvas.toDataURL());
+                        addBase64StringImage(canvas.toDataURL());
                         camera();
                     // }
                 }
             }
 
-            function addBase64StringPhoto(base64String) {
+            function addBase64StringImage(base64String) {
                 if (base64String.length > 0) {
                     var img = document.createElement("img");
                     img.setAttribute("src", base64String);
