@@ -75,6 +75,10 @@
             #cameraContainer {
                 display: none;
             }
+
+            img {
+                width: 100%;
+            }
         </style>
         <script>
             function addItem(value) {
@@ -150,24 +154,25 @@
                         canvas.width = video.videoWidth;
                         canvas.height = video.videoHeight;
                         canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-                        addBase64StringImage(canvas.toDataURL());
-                        camera();
+                        var base64String = canvas.toDataURL();
+                        if (base64String.length > 6) {
+                            addBase64StringImage(base64String);
+                            camera();
+                        }
                     // }
                 }
             }
 
             function addBase64StringImage(base64String) {
-                if (base64String.length > 0) {
-                    var img = document.createElement("img");
-                    img.setAttribute("src", base64String);
+                var img = document.createElement("img");
+                img.setAttribute("src", base64String);
 
-                    var itemDiv = document.createElement("div");
-                    itemDiv.setAttribute("class", "item");
-                    itemDiv.appendChild(img);
+                var itemDiv = document.createElement("div");
+                itemDiv.setAttribute("class", "item");
+                itemDiv.appendChild(img);
 
-                    var listDiv = document.getElementById("list");
-                    listDiv.appendChild(itemDiv);
-                }
+                var listDiv = document.getElementById("list");
+                listDiv.appendChild(itemDiv);
             }
         </script>
     </head>
