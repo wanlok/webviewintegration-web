@@ -143,23 +143,15 @@
             }
 
             function capture() {
-                try {
-                    window.webkit.messageHandlers.accenture.postMessage({"action":"capture"});
-                } catch (e) {
-                    // try {
-                        // Android handling
-                    // } catch(e) {
-                        var video = document.getElementById("video");
-                        var canvas = document.createElement("canvas");
-                        canvas.width = video.videoWidth;
-                        canvas.height = video.videoHeight;
-                        canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-                        var base64String = canvas.toDataURL();
-                        if (base64String.length > 6) {
-                            addBase64StringImage(base64String);
-                            camera();
-                        }
-                    // }
+                var video = document.getElementById("video");
+                var canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+                var base64String = canvas.toDataURL();
+                if (base64String.length > 6) {
+                    addBase64StringImage(base64String);
+                    camera();
                 }
             }
 
