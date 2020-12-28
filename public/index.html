@@ -24,7 +24,7 @@
             }
 
             .control > input {
-                width: calc(100% - 80px - 80px - 8px - 1px);
+                width: calc(100%);
             }
 
             .control > * {
@@ -38,11 +38,7 @@
                 margin-bottom: 1px;
             }
 
-            #clearAll {
-                margin-left: 1px;
-            }
-
-            #add, #clearAll, #camera, #capture {
+            #addNative, #addWeb, #clearAll, #camera, #capture {
                 background: none;
                 color: inherit;
                 border: none;
@@ -52,16 +48,16 @@
                 outline: inherit;
             }
             
-            #add {
-                margin-left: 8px;
+            #addWeb, #clearAll {
+                margin-left: 1px;
             }
             
-            #add, #clearAll, #camera, #capture {
+            #addNative, #addWeb, #clearAll, #camera, #capture {
                 background: #EEEEEE;
             }
 
-            #add, #clearAll {
-                width: 80px;
+            #addNative, #addWeb, #clearAll {
+                width: calc(100% / 3 - 1px);
             }
 
             #camera, #capture {
@@ -92,7 +88,19 @@
                 }
             }
 
-            function add() {
+            function addNative() {
+                var valueInput = document.getElementById("value");
+                if (valueInput.value.length > 0) {
+                    try {
+                        window.webkit.messageHandlers.accenture.postMessage({"action":"message","content":valueInput.value});
+                    } catch (e) {
+
+                    }
+                    valueInput.value = "";
+                }
+            }
+
+            function addWeb() {
                 var valueInput = document.getElementById("value");
                 addItem(valueInput.value);
                 valueInput.value = "";
@@ -106,6 +114,12 @@
                 
                 var listDiv = document.getElementById("list");
                 listDiv.innerHTML = "";
+
+                try {
+                    window.webkit.messageHandlers.accenture.postMessage({"action":"clearAll"});
+                } catch (e) {
+
+                }
             }
 
             function camera() {
@@ -171,7 +185,10 @@
     <body>
         <div class="control">
             <input type="text" id="value" />
-            <button id="add" onClick="add()">Add</button>
+        </div>
+        <div class="control">
+            <button id="addNative" onClick="addNative()">Add to Native</button>
+            <button id="addWeb" onClick="addWeb()">Add to Web</button>
             <button id="clearAll" onClick="clearAll()">Clear All</button>
         </div>
         <div class="control">
