@@ -94,7 +94,11 @@
                     try {
                         window.webkit.messageHandlers.accenture.postMessage({"action":"message","content":valueInput.value});
                     } catch (e) {
+                        try {
+                            window.accenture.saveMessage(valueInput.value);
+                        } catch (e) {
 
+                        }
                     }
                     valueInput.value = "";
                 }
@@ -118,7 +122,11 @@
                 try {
                     window.webkit.messageHandlers.accenture.postMessage({"action":"clearAll"});
                 } catch (e) {
+                    try {
+                        window.accenture.clearAll();
+                    } catch (e) {
 
+                    }
                 }
             }
 
@@ -127,7 +135,7 @@
                     window.webkit.messageHandlers.accenture.postMessage({"action":"camera"});
                 } catch (e) {
                     try {
-                        window.accentureInterface.openCamera();
+                        window.accenture.openCamera();
                     } catch(e) {
                         var list = document.getElementById("list");
                         var video = document.getElementById("video");
